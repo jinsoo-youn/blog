@@ -25,8 +25,8 @@ theme = "m10c"
 
 [params]
   author = "Jinsoo Youn"
-  description = "A blog about all things technical."
-  menu_item_separator = " - "
+  description = "자료 아카이빙"
+  menu_item_separator = " /n "
   [[params.social]]
     icon = "github"
     name = "GitHub"
