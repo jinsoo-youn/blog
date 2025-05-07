@@ -26,7 +26,7 @@ theme = "m10c"
 [params]
   author = "Jinsoo Youn"
   description = "자료 아카이빙"
-  menu_item_separator = " /n "
+  menu_item_separator = "/n"
   [[params.social]]
     icon = "github"
     name = "GitHub"
@@ -35,3 +35,8 @@ theme = "m10c"
 
 [params.style]
   lightColor = "#f5e3e0"
+  darkestColor = "#315659"
+  darkColor = "#253031"
+  lightColor = "#96a879"
+  lightestColor = "#fff"
+  primaryColor = "#dad865"
