@@ -16,6 +16,3 @@ theme = "m10c"
     icon = "twitter"
     name = "Twitter"
     url = "https://twitter.com/"
-
-
-sectionPagesMenu = 'main'
