@@ -1,35 +1,24 @@
-baseURL = "https://jinsoo-youn.github.io/blog"
-languageCode = "en-us"
-title = "Woody's Blog"
-theme = "m10c"
+baseURL      = "https://jinsoo-youn.github.io/blog"
+title        = "Woody's Blog"
+languageCode = "ko-kr"
+theme        = "papermod"
 
-[pagination]
-  pagerSize = 8
+# ──────────────────────────────
+# 메뉴
+[[menu.main]]
+  name   = "Home"
+  url    = "/"
+  weight = 1
 
-[menu]
-  [[menu.main]]
-    identifier = "home"
-    name = "Home"
-    url = "/"
-    weight = 1
-  [[menu.main]]
-    identifier = "posts"
-    name = "posts"
-    url = "/posts/"
-    weight = 2
-  [[menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about/"
-    weight = 3
+[[menu.main]]
+  name   = "Posts"
+  url    = "/posts/"
+  weight = 2
 
-[params]
-  author = "Jinsoo Youn"
-  description = "개인 블로그"
-  #menu_item_separator = "/n"
-  [[params.social]]
-    icon = "github"
-    name = "GitHub"
-    url = "https://github.com/jinsoo-youn"
-
-
+# ──────────────────────────────
+[params]                           # PaperMod 전용 파라미터
+  author            = "Jinsoo Youn"
+  description       = "개인 블로그"
+  defaultTheme      = "auto"       # 다크/라이트 자동 전환
+  ShowReadingTime   = true
+  ShowCodeCopyButtons = true

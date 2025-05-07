@@ -1,18 +1,38 @@
-baseURL = "https://jinsoo-youn.github.io/blog/"
-languageCode = "en-us"
+baseURL = "https://jinsoo-youn.github.io/blog"
+#languageCode = "en-us"
 title = "Woody's Blog"
 theme = "m10c"
 
+languageCode = "ko-kr"
+
+#[params]
+#  author = "진수"
+#  avatar = "img/profile.jpg"
+#  description = "클라우드·시스템 엔지니어의 기술 블로그"
+
+[[menu.main]]
+  name = "Home"
+  url  = "/"
+  weight = 1
+
+[[menu.main]]
+  name = "Posts"
+  url  = "/posts/"
+  weight = 2
+
+
 [params]
   author = "Jinsoo Youn"
-  description = "A blog about all things technical."
-
+  description = "개인 블로그"
+  #menu_item_separator = "/n"
   [[params.social]]
     icon = "github"
     name = "GitHub"
     url = "https://github.com/jinsoo-youn"
 
-  [[params.social]]
-    icon = "twitter"
-    name = "Twitter"
-    url = "https://twitter.com/"
+[params.style]
+  darkestColor  = "#FFFFFF"  # 왼쪽 사이드바 배경
+  darkColor     = "#FFFFFF"  # 본문(오른쪽) 배경
+  lightColor    = "#666666"  # 날짜·카테고리 등 보조 텍스트
+  lightestColor = "#000000"  # 본문·헤드라인 텍스트
+  primaryColor  = "#1A73E8"  # 링크·아이콘 강조
