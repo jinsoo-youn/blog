@@ -1,4 +1,4 @@
-baseURL = "https://jinsoo-youn.github.io/blog-hugo/"
+baseURL = "https://jinsoo-youn.github.io/blog/"
 languageCode = "en-us"
 title = "Jinsoo Youn's Blog"
 theme = "m10c"
