@@ -1,4 +1,4 @@
-baseURL = "https://jinsoo-youn.github.io/blog/"
+baseURL = "https://jinsoo-youn.github.io/"
 languageCode = "en-us"
 title = "Woody's Blog"
 theme = "m10c"
@@ -13,9 +13,9 @@ theme = "m10c"
     url = "/"
     weight = 1
   [[menu.main]]
-    identifier = "tags"
-    name = "Tags"
-    url = "/tags/"
+    identifier = "posts"
+    name = "posts"
+    url = "/posts/"
     weight = 2
   [[menu.main]]
     identifier = "about"
@@ -25,18 +25,11 @@ theme = "m10c"
 
 [params]
   author = "Jinsoo Youn"
-  description = "자료 아카이빙"
-  menu_item_separator = "/n"
+  description = "개인 블로그"
+  #menu_item_separator = "/n"
   [[params.social]]
     icon = "github"
     name = "GitHub"
     url = "https://github.com/jinsoo-youn"
 
 
-[params.style]
-  lightColor = "#f5e3e0"
-  darkestColor = "#315659"
-  darkColor = "#253031"
-  lightColor = "#96a879"
-  lightestColor = "#fff"
-  primaryColor = "#dad865"
