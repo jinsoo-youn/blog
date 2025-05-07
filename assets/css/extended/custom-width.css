@@ -1,5 +1,5 @@
 /* PaperMod 폭 확장: 기본 720 px → 960 px */
 :root {
-  --main-width: 1100px;
+  --main-width: 960px;
   --nav-width: 1100px;   /* 필요하면 네비게이션도 함께 조정 */
 }

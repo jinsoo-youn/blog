@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Hello World | Woody&#39;s Blog</title>
+<title>longhorn 구조 정리 | Woody&#39;s Blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="Kubernetes Longhorn 스토리지 구조와 운영 가이드
 1. Longhorn 내부 구조
@@ -13,7 +13,7 @@ Longhorn 아키텍처 개요: Longhorn은 Kubernetes 상에서 동작하는 분�
  그림 1: Longhorn 볼륨 엔진(Controller)과 다수 Replica의 관계 – 각 애플리케이션 Pod가 사용하는 Longhorn 볼륨마다 전용 엔진(스토리지 컨트롤러) 프로세스가 생성되고, 엔진은 여러 노드에 분산된 Replica들과 통신하며 블록 장치를 제공합니다. 모든 쓰기 요청은 **엔진(Controller)**을 통해 모든 Replica에 동기적으로 복제되고, 읽기 요청은 정상 Replica 중 하나에서 수행됩니다. 하단의 Node1, Node2는 실제 물리 노드와 해당 디스크(SSD) 자원을 표현한 것입니다.">
 <meta name="author" content="Jinsoo Youn">
 <link rel="canonical" href="http://localhost:1313/blog/posts/longhorn/">
-<link crossorigin="anonymous" href="/blog/assets/css/stylesheet.80b3e0c4a045c828b7cc805df63204246ab40c4ef75789b931756a3163bef7d5.css" integrity="sha256-gLPgxKBFyCi3zIBd9jIEJGq0DE73V4m5MXVqMWO&#43;99U=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/blog/assets/css/stylesheet.ec93af726d5457a78c3416e733c9365c2dc31fe8155bd6623d369265650d166d.css" integrity="sha256-7JOvcm1UV6eMNBbnM8k2XC3DH&#43;gVW9ZiPTaSZWUNFm0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/blog/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/blog/favicon-32x32.png">
@@ -120,12 +120,72 @@ Longhorn 아키텍처 개요: Longhorn은 Kubernetes 상에서 동작하는 분�
   <header class="post-header">
     
     <h1 class="post-title entry-hint-parent">
-      Hello World
+      longhorn 구조 정리
     </h1>
     <div class="post-meta"><span title='2025-05-07 20:52:24 +0900 KST'>May 7, 2025</span>&nbsp;·&nbsp;29 min&nbsp;·&nbsp;Jinsoo Youn
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#kubernetes-longhorn-%ec%8a%a4%ed%86%a0%eb%a6%ac%ec%a7%80-%ea%b5%ac%ec%a1%b0%ec%99%80-%ec%9a%b4%ec%98%81-%ea%b0%80%ec%9d%b4%eb%93%9c" aria-label="Kubernetes Longhorn 스토리지 구조와 운영 가이드">Kubernetes Longhorn 스토리지 구조와 운영 가이드</a><ul>
+                        
+                <li>
+                    <a href="#1-longhorn-%eb%82%b4%eb%b6%80-%ea%b5%ac%ec%a1%b0" aria-label="1. Longhorn 내부 구조">1. Longhorn 내부 구조</a></li>
+                <li>
+                    <a href="#2-%eb%b3%bc%eb%a5%a8-%ec%83%9d%ec%84%b1%eb%b6%80%ed%84%b0-%ec%97%b0%ea%b2%b0-%ec%82%ad%ec%a0%9c%ea%b9%8c%ec%a7%80%ec%9d%98-%ed%9d%90%eb%a6%84" aria-label="2. 볼륨 생성부터 연결, 삭제까지의 흐름">2. 볼륨 생성부터 연결, 삭제까지의 흐름</a><ul>
+                        
+                <li>
+                    <a href="#2-1-pvc-%ec%83%9d%ec%84%b1-%eb%b0%8f-volume-%ed%94%84%eb%a1%9c%eb%b9%84%ec%a0%80%eb%8b%9d" aria-label="2-1. PVC 생성 및 Volume 프로비저닝">2-1. PVC 생성 및 Volume 프로비저닝</a></li>
+                <li>
+                    <a href="#2-2-%eb%b3%bc%eb%a5%a8-attach-%eb%b0%8f-pod-%eb%a7%88%ec%9a%b4%ed%8a%b8" aria-label="2-2. 볼륨 Attach 및 Pod 마운트">2-2. 볼륨 Attach 및 Pod 마운트</a></li>
+                <li>
+                    <a href="#2-3-%eb%b3%bc%eb%a5%a8-%ec%82%ac%ec%9a%a9-%ec%a4%91-%eb%8f%99%ec%9e%91-%eb%b0%8f-%ec%82%ad%ec%a0%9c" aria-label="2-3. 볼륨 사용 중 동작 및 삭제">2-3. 볼륨 사용 중 동작 및 삭제</a></li></ul>
+                </li>
+                <li>
+                    <a href="#3-rwo-vs-rwx-%eb%b3%bc%eb%a5%a8-%ec%a7%80%ec%9b%90-%ea%b5%ac%ec%a1%b0" aria-label="3. RWO vs RWX 볼륨 지원 구조">3. RWO vs RWX 볼륨 지원 구조</a><ul>
+                        
+                <li>
+                    <a href="#3-1-longhorn-rwx-%ea%b5%ac%ed%98%84-%eb%b0%a9%ec%8b%9d-share-manager%eb%a5%bc-%ed%86%b5%ed%95%9c-nfs" aria-label="3-1. Longhorn RWX 구현 방식 (Share Manager를 통한 NFS)">3-1. Longhorn RWX 구현 방식 (Share Manager를 통한 NFS)</a></li>
+                <li>
+                    <a href="#3-2-rwx-%ec%82%ac%ec%9a%a9-%ec%8b%9c-%ea%b3%a0%eb%a0%a4%ec%82%ac%ed%95%ad-%ec%84%b1%eb%8a%a5-%eb%b0%8f-%ec%a0%9c%ed%95%9c" aria-label="3-2. RWX 사용 시 고려사항 (성능 및 제한)">3-2. RWX 사용 시 고려사항 (성능 및 제한)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#4-%ec%9e%a5%ec%95%a0-%ec%8b%9c-%eb%8f%99%ec%9e%91-%eb%b0%8f-%eb%94%94%eb%b2%84%ea%b9%85-%ec%82%ac%eb%a1%80" aria-label="4. 장애 시 동작 및 디버깅 사례">4. 장애 시 동작 및 디버깅 사례</a><ul>
+                        
+                <li>
+                    <a href="#4-1-%eb%b3%bc%eb%a5%a8-attachmount-%ec%8b%a4%ed%8c%a8-%ea%b4%80%eb%a0%a8" aria-label="4-1. 볼륨 Attach/Mount 실패 관련">4-1. 볼륨 Attach/Mount 실패 관련</a></li>
+                <li>
+                    <a href="#4-2-%ec%97%94%ec%a7%84controller-%ec%98%a4%eb%a5%98%ec%99%80-%eb%b3%bc%eb%a5%a8-faulted" aria-label="4-2. 엔진(Controller) 오류와 볼륨 Faulted">4-2. 엔진(Controller) 오류와 볼륨 Faulted</a></li>
+                <li>
+                    <a href="#4-3-replica-%eb%b6%88%ec%9d%bc%ec%b9%98-%eb%b0%8f-degraded-%ec%83%81%ed%83%9c" aria-label="4-3. Replica 불일치 및 Degraded 상태">4-3. Replica 불일치 및 Degraded 상태</a></li>
+                <li>
+                    <a href="#4-4-%ea%b8%b0%ed%83%80-%ed%9d%94%ed%95%9c-%ec%9d%b4%ec%8a%88%ec%99%80-%eb%8c%80%ec%b2%98" aria-label="4-4. 기타 흔한 이슈와 대처">4-4. 기타 흔한 이슈와 대처</a></li></ul>
+                </li>
+                <li>
+                    <a href="#5-%ec%9a%b4%ec%98%81-%ed%8c%81-%ec%8a%a4%eb%83%85%ec%83%b7-%eb%b0%b1%ec%97%85-%ec%84%b1%eb%8a%a5-%ec%b5%9c%ec%a0%81%ed%99%94-%eb%93%b1" aria-label="5. 운영 팁 (스냅샷, 백업, 성능 최적화 등)">5. 운영 팁 (스냅샷, 백업, 성능 최적화 등)</a></li>
+                <li>
+                    <a href="#6-%ea%b5%ac%ec%84%b1-%ec%98%88%ec%a0%9c-%eb%b0%8f-%eb%aa%85%eb%a0%b9%ec%96%b4-%eb%aa%a8%ec%9d%8c" aria-label="6. 구성 예제 및 명령어 모음">6. 구성 예제 및 명령어 모음</a><ul>
+                        
+                <li>
+                    <a href="#6-1-storageclass-%eb%b0%8f-pvc-yaml-%ec%98%88%ec%a0%9c" aria-label="6-1. StorageClass 및 PVC YAML 예제">6-1. StorageClass 및 PVC YAML 예제</a></li>
+                <li>
+                    <a href="#6-2-longhorn-%ec%83%81%ed%83%9c-%ec%a1%b0%ed%9a%8c-%eb%b0%8f-%eb%94%94%eb%b2%84%ea%b9%85-%eb%aa%85%eb%a0%b9%ec%96%b4" aria-label="6-2. Longhorn 상태 조회 및 디버깅 명령어">6-2. Longhorn 상태 조회 및 디버깅 명령어</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h1 id="kubernetes-longhorn-스토리지-구조와-운영-가이드">Kubernetes Longhorn 스토리지 구조와 운영 가이드<a hidden class="anchor" aria-hidden="true" href="#kubernetes-longhorn-스토리지-구조와-운영-가이드">#</a></h1>
 <h2 id="1-longhorn-내부-구조">1. Longhorn 내부 구조<a hidden class="anchor" aria-hidden="true" href="#1-longhorn-내부-구조">#</a></h2>
 <p><strong>Longhorn 아키텍처 개요:</strong> Longhorn은 Kubernetes 상에서 동작하는 <strong>분산 블록 스토리지 시스템</strong>으로, 모든 제어 메타데이터를 Kubernetes Custom Resource로 관리합니다. Longhorn은 각 볼륨마다 독립적인 스토리지 컨트롤러(엔진)를 생성하고, 다수 노드에 걸쳐 **복제본(Replica)**들을 동기 복제하여 높은 가용성을 제공합니다. 이러한 Longhorn의 컨트롤 플레인은 <code>longhorn-manager</code>라는 DaemonSet으로 구성되며, Kubernetes API (etcd)를 통해 CRD 자원으로 상태를 저장/조회합니다. Longhorn의 주요 컴포넌트와 데이터 흐름 관계를 아래 그림에 나타냈습니다.</p>

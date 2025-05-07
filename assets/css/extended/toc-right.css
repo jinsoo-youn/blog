@@ -1,0 +1,20 @@
+/* 오른쪽 사이드 고정 TOC */
+@media (min-width: 1300px) {
+  .toc {
+    position: fixed;
+    top: 120px;
+    right: 3vw;
+    width: 250px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: var(--theme);
+    border-left: 1px solid var(--border);
+    padding-left: 1rem;
+    z-index: 10;
+  }
+
+  main .toc {
+    margin: 0;
+    padding: 1rem;
+  }
+}

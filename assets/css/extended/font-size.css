@@ -1,0 +1,56 @@
+/* 전체 폰트 (기본 작게, 모바일 대응) */
+body {
+  font-family: "Noto Sans", "Helvetica Neue", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* 본문 */
+.post-content {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* 소제목 */
+.post-content h1 {
+  font-size: 1.6rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-content h2 {
+  font-size: 1.3rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.post-content h3 {
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+/* 코드 블록 */
+pre, code {
+  font-size: 1rem;
+  font-family: "Fira Code", "Courier New", monospace;
+  line-height: 1.2;
+}
+
+/* 인용 블록 */
+blockquote {
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* 글 메타 정보 (작성일 등) */
+.post-meta {
+  font-size: 0.8rem;
+  color: var(--secondary);
+}
+
+/* TOC (목차) */
+.toc {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}

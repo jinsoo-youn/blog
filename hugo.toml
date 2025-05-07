@@ -22,3 +22,7 @@ theme        = "papermod"
   defaultTheme      = "auto"       # 다크/라이트 자동 전환
   ShowReadingTime   = true
   ShowCodeCopyButtons = true
+  ShowToc = true         # 모든 포스트에서 TOC 표시
+  TocOpen = true         # 기본 펼침 여부
+  # 사용자 CSS 적용
+  customCSS = ["css/extended/toc-right.css"]

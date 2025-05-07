@@ -1,7 +1,7 @@
 +++
 date = '2025-05-07T20:52:24+09:00'
 draft = false
-title = 'Hello World'
+title = 'longhorn 구조 정리'
 +++
 
 # Kubernetes Longhorn 스토리지 구조와 운영 가이드
