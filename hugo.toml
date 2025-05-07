@@ -3,19 +3,35 @@ languageCode = "en-us"
 title = "Woody's Blog"
 theme = "m10c"
 
+[pagination]
+  pagerSize = 8
+
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 2
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 3
+
 [params]
   author = "Jinsoo Youn"
   description = "A blog about all things technical."
-
+  menu_item_separator = " - "
   [[params.social]]
     icon = "github"
     name = "GitHub"
     url = "https://github.com/jinsoo-youn"
 
-  [[params.social]]
-    icon = "twitter"
-    name = "Twitter"
-    url = "https://twitter.com/"
 
-
-sectionPagesMenu = 'main'
+[params.style]
+  lightColor = "#f5e3e0"
